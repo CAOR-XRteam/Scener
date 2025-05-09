@@ -8,22 +8,26 @@ Created: 05-05-2025
 Last Updated: 05-05-2025
 """
 
-
 import sqlite3
+import os
+
 
 # Init
 def connect_db(db_name):
     """Connect to an SQLite database (create it if not exists) and return the connection."""
     return sqlite3.connect(db_name)
 
+
 def get_cursor(conn):
     """Return a cursor from the connection."""
     return conn.cursor()
 
+
 # Operation
 def create_table_asset(conn, cursor):
     """Create an 'assets' table if it doesn't exist."""
-    cursor.execute('''
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS asset (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -31,8 +35,10 @@ def create_table_asset(conn, cursor):
             mesh TEXT,
             description TEXT
         )
-    ''')
+    """
+    )
     conn.commit()
+
 
 def insert_asset(conn, cursor, name, image, mesh, description):
     """Insert a new asset into the 'asset' table if the name does not already exist."""
@@ -45,13 +51,18 @@ def insert_asset(conn, cursor, name, image, mesh, description):
         return
 
     # Insert the new asset
-    cursor.execute("INSERT INTO asset (name, image, mesh, description) VALUES (?, ?, ?, ?)", (name, image, mesh, description))
+    cursor.execute(
+        "INSERT INTO asset (name, image, mesh, description) VALUES (?, ?, ?, ?)",
+        (name, image, mesh, description),
+    )
     conn.commit()
+
 
 def query_assets(cursor):
     """Fetch all assets from the 'asset' table."""
     cursor.execute("SELECT * FROM asset")
     return cursor.fetchall()
+
 
 def update_asset(conn, cursor, name, image=None, mesh=None, description=None):
     """Update an existing asset's information by its name."""
@@ -80,13 +91,17 @@ def update_asset(conn, cursor, name, image=None, mesh=None, description=None):
     update_values.append(name)
 
     # Execute the update query
-    cursor.execute(f"UPDATE asset SET {update_fields_str} WHERE name = ?", tuple(update_values))
+    cursor.execute(
+        f"UPDATE asset SET {update_fields_str} WHERE name = ?", tuple(update_values)
+    )
     conn.commit()
+
 
 def delete_asset(conn, cursor, name):
     """Delete an asset by its name."""
     cursor.execute("DELETE FROM asset WHERE name = ?", (name,))
     conn.commit()
+
 
 # Closing
 def close_connection(conn):

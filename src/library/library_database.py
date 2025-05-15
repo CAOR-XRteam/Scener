@@ -10,9 +10,9 @@ Last Updated: 05-05-2025
 
 from loguru import logger
 from colorama import Fore, Style
-import sql
-import threading
+from library import sql
 import os
+
 
 class Database:
     def __init__(self, path):
@@ -21,7 +21,9 @@ class Database:
 
     def _check_path_and_init_db(self):
         if not os.path.exists(self.path):
-            logger.warning(f"Database file not found {Fore.GREEN}{self.path}{Fore.RESET}.")
+            logger.warning(
+                f"Database file not found. Creating it at {Fore.GREEN}{self.path}{Fore.RESET}."
+            )
 
         # Ensure that the database is properly initialized
         conn = self._get_connection()

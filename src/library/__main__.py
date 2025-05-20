@@ -1,13 +1,25 @@
-from api import *
+from library.api import LibraryAPI
+import inspect
 import os
-
-
-def main(path):
-    library.fill(path)
-    library.read()
-    list = library.get_list()
-    print(list)
+from library.library_database import Database
 
 if __name__ == "__main__":
-    path = "./media/asset"
-    main(path)
+    db_path = (
+        os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        + "/media/database.db"
+    )
+    db = Database(db_path)
+    LibraryAPI = LibraryAPI(db)
+
+    assets_path = (
+        os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        + "/media/asset/"
+    )
+
+    if not os.path.exists(assets_path):
+        os.makedirs(assets_path)
+
+    LibraryAPI.fill(assets_path)
+    LibraryAPI.read()
+    list = LibraryAPI.get_list()
+    print(list)

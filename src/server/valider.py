@@ -1,14 +1,51 @@
-"""
-server.py
-
-websocket "Utils" functions, may be deleted later
-
-Author: Nathan SV
-Created: 05-05-2025
-Last Updated: 05-05-2025
-"""
-
 import json
+import io
+
+from PIL import Image
+from pydantic import BaseModel, field_validator
+from typing import Literal
+
+
+def validate_message(m):
+    if not m or m.isspace():
+        raise ValueError("Message must not be empty or whitespace")
+    return m
+
+
+def parse_agent_response(m: str):
+    thinking, final_aswer = m.split("\nFinal Answer:")
+    return thinking, final_aswer
+
+
+def convert_image_to_bytes(image_path):
+    try:
+        with Image.open(image_path) as image:
+            byte_arr = io.BytesIO()
+            image.save(byte_arr, format="PNG")
+            return byte_arr.getvalue()
+    except Exception as e:
+        print(f"Error converting image to bytes: {e}")
+        raise
+
+
+class OutputMessage(BaseModel):
+    status: Literal["stream", "error"]
+    code: int
+    action: Literal["agent_response", "image_generation", "thinking_process"]
+    message: str
+    _validate_message = field_validator("message")(validate_message)
+
+
+class OutputMessageWrapper(BaseModel):
+    output_message: OutputMessage
+    additional_data: list[bytes] | None = None
+
+
+class InputMessage(BaseModel):
+    command: Literal["chat"]
+    message: str
+
+    _validate_message = field_validator("message")(validate_message)
 
 
 # Main function

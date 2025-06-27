@@ -2,10 +2,25 @@ install:
 	pip install -e .
 
 run_agent:
-	python src/agent/__main__.py
+	python -m agent
 
 run_library:
-	python src/library/__main__.py
+	python -m library
 
 run_server:
-	python src/server/__main__.py
+	python -m server
+
+run_client:
+	python src/server/test/client.py
+
+# A enlever par la suite
+######################
+run_proto:
+	python src/server/test/simple.py
+
+run_image:
+	python src/server/test/image.py
+######################
+
+run_gesture:
+	python -m gesture

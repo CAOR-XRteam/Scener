@@ -24,3 +24,18 @@ Detailed documentation is available in the [dedicated repository](https://github
 ## 3. Server
 
 Detailed documentation is available in the [dedicated repository](https://github.com/CAOR-XRteam/scener_server).
+
+---
+
+<div align="center">
+  <p>
+    Developed at the <a href="https://www.caor.minesparis.psl.eu/">Center for Robotics (CAOR), Mines Paris, PSL University</a></strong>
+  </p>
+  <p>
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+      <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-sa.png" alt="CC BY-SA 4.0" width="88" height="31">
+    </a>
+    <br>
+    This project is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+  </p>
+</div>
